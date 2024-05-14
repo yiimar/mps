@@ -1,0 +1,5 @@
+# config/packages/translation.yaml
+framework:
+  translator:
+    # ...
+    default_path: "%kernel.project_dir%/src/Ui/Translation"

@@ -1,0 +1,4 @@
+# config/packages/twig.yaml
+twig:
+  # ...
+  default_path: "%kernel.project_dir%/src/Ui/Template"
