@@ -24,7 +24,8 @@ services:
   php-fpm:
     container_name: mps_php-fpm
     build:
-      context: ${DOCKER_CONTEXT}/development/php-fpm
+      context: ${DOCKER_CONTEXT}
+      dockerfile: development/php-fpm/Dockerfile
 #    restart: unless-stopped
 #    tty: true
     volumes:

@@ -29,6 +29,7 @@ services:
             - '../src/Infrastructure/QueryBus'
             - '../src/Infrastructure/Symfony7'
             - '../src/Infrastructure/Symfony7/Kernel.php'
+            - '../src/Infrastructure/Symfony7/DependencyInjection/'
 
             - '../src/Ui/Console/'
             - '../src/Ui/Http/'
