@@ -1,5 +1,20 @@
-controllers:
-    resource:
-        path: ../src/Ui/Http/Controller/
-        namespace: App\Controller
-    type: attribute
+
+app_home:
+    path: /
+    controller: App\Ui\Http\Controller\Home\Controller
+    methods: [GET]
+
+app_login:
+    path: /login
+    controller: App\Ui\Http\Controller\Auth\Login\Controller
+    methods: [GET]
+
+app_order:
+    path: /order
+    controller: App\Ui\Http\Controller\Shop\Order\Order\Controller
+    methods: [GET]
+
+app_ordering:
+    path: /ordering
+    controller: App\Ui\Http\Controller\Shop\Order\Ordering\Controller
+    methods: [GET, POST]
