@@ -1,96 +1,120 @@
-version: '3.9'
 services:
-  # MySQL Database Service
-  db:
-    container_name: mps_mysql
-    build:
-      context: ${DOCKER_CONTEXT}
-      dockerfile: development/mysql/Dockerfile
-    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    restart: unless-stopped
-    environment:
-      TZ: 'Europe/Moscow'
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-    ports:
-      # Maps port 33061 on the host to port 33061 on the MySQL container
-      - "${MYSQL_PORT}:${MYSQL_PORT}"
-    volumes:
-      - mysql_data:/var/lib/mysql
+    traefik:
+        image: traefik:2.11
+        command:
+            --providers.docker=true
+            --providers.docker.exposedByDefault=false
+            --entryPoints.http.address=:80
+        ports:
+            - "80:80"
+        networks:
+            - traefik-public
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
 
-  # PHP-FPM Service
-  php-fpm:
-    container_name: mps_php-fpm
-    build:
-      context: ${DOCKER_CONTEXT}
-      dockerfile: development/php-fpm/Dockerfile
-    restart: always
-#    tty: true
-    volumes:
-      # Mounts the local 'app' directory to the container's Nginx root
-      - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
-#    depends_on:
-#      - db
-#    ports:
-#      - "9000:9000"
-    environment:
-      APP_ENV: dev
-      APP_DEBUG: 1
-      PHP_IDE_CONFIG: serverName=ELA
-      DB_HOST: mysql
-      DB_USER: "${MYSQL_USER}"
-      DB_PASSWORD: "${MYSQL_PASSWORD}"
-      DB_NAME: "${MYSQL_DATABASE}"
-      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}"
+    # MySQL Database Service
+    db:
+        container_name: mps_mysql
+        build:
+            context: ${DOCKER_CONTEXT}
+            dockerfile: development/mysql/Dockerfile
+        command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        restart: unless-stopped
+        environment:
+            TZ: 'Europe/Moscow'
+            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_USER: "${MYSQL_USER}"
+            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+        ports:
+            # Maps port 33061 on the host to port 33061 on the MySQL container
+            - "${MYSQL_PORT}:${MYSQL_PORT}"
+        volumes:
+            - mysql_data:/var/lib/mysql
 
-    # PHP-CLI Service
-  php-cli:
-    container_name: mps_php-cli
-    build:
-      context: ${DOCKER_CONTEXT}
-      dockerfile: development/php-cli/Dockerfile
-    restart: unless-stopped
-    tty: true
-    volumes:
-      # Mounts the local 'app' directory to the container's Nginx root
-      - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
-#    depends_on:
-#      - db
-#    ports:
-#      - "9000:9000"
-    environment:
-      APP_ENV: dev
-      APP_DEBUG: 1
-      PHP_IDE_CONFIG: serverName=MPS
-      DB_HOST: mysql
-      DB_USER: "${MYSQL_USER}"
-      DB_PASSWORD: "${MYSQL_PASSWORD}"
-      DB_NAME: "${MYSQL_DATABASE}"
-      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}"
+    # PHP-FPM Service
+    php-fpm:
+        container_name: mps_php-fpm
+        build:
+            context: ${DOCKER_CONTEXT}
+            dockerfile: development/php-fpm/Dockerfile
+        restart: always
+        #    tty: true
+        volumes:
+            # Mounts the local 'app' directory to the container's Nginx root
+            - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
+        environment:
+            APP_ENV: dev
+            APP_DEBUG: 1
+            PHP_IDE_CONFIG: serverName=MPS
+            DB_HOST: mysql
+            DB_USER: "${MYSQL_USER}"
+            DB_PASSWORD: "${MYSQL_PASSWORD}"
+            DB_NAME: "${MYSQL_DATABASE}"
+            DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}"
 
-  # NGINX Service
-  nginx:
-    container_name: mps_nginx
-    build:
-      context: ${DOCKER_CONTEXT}
-      dockerfile: development/nginx/Dockerfile
-    volumes:
-      # Mount local 'app' directory to the Nginx root
-      - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
-    restart: unless-stopped
-    depends_on:
-      - db
-      - php-fpm
-    ports:
-      - "${NGINX_PORT_HOST}:${NGINX_PORT_CONTAINER}"
+        # PHP-CLI Service
+    php-cli:
+        container_name: mps_php-cli
+        build:
+            context: ${DOCKER_CONTEXT}
+            dockerfile: development/php-cli/Dockerfile
+        restart: unless-stopped
+        tty: true
+        volumes:
+            # Mounts the local 'app' directory to the container's Nginx root
+            - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
+        #    depends_on:
+        #      - db
+        #    ports:
+        #      - "9000:9000"
+        environment:
+            APP_ENV: dev
+            APP_DEBUG: 1
+            PHP_IDE_CONFIG: serverName=MPS
+            DB_HOST: mysql
+            DB_USER: "${MYSQL_USER}"
+            DB_PASSWORD: "${MYSQL_PASSWORD}"
+            DB_NAME: "${MYSQL_DATABASE}"
+            DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}"
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - "8808:8080"
+        # NGINX Service
+    nginx:
+        container_name: mps_nginx
+        build:
+            context: ${DOCKER_CONTEXT}
+            dockerfile: development/nginx/Dockerfile
+        volumes:
+            # Mount local 'app' directory to the Nginx root
+            - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
+        networks:
+            - traefik-public
+            - default
+        restart: unless-stopped
+        depends_on:
+            - db
+            - php-fpm
+        ports:
+            - "${NGINX_PORT_HOST}:${NGINX_PORT_CONTAINER}"
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
+            - traefik.http.routers.app.rule=Host(`localhost`)
+            - traefik.http.routers.app.entryPoints=http
+            - traefik.http.services.app.loadBalancer.server.port=80
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - "8808:8080"
 
 volumes:
-  mysql_data:
+    mysql_data:
+
+networks:
+    traefik-public:
+        name: traefik-public
