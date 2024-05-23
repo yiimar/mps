@@ -9,6 +9,26 @@ doctrine:
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+
+        types:
+            user_id:  App\Domain\Model\Auth\Entity\User\Entity\UserIdType
+            user_email:  App\Domain\Model\Auth\Entity\User\Entity\UserEmailType
+            user_role:  App\Domain\Model\Auth\Entity\User\Entity\UserRoleType
+            user_password: App\Domain\Model\Auth\Entity\User\Entity\UserPasswordType
+
+            money_amount_type: App\Infrastructure\Doctrine\Dbal\Type\Money\MoneyAmountType
+            money_currency_type: App\Infrastructure\Doctrine\Dbal\Type\Money\MoneyCurrencyType
+
+            good_id:  App\Domain\Model\Shop\Good\Entity\GoodIdType
+            good_name:  App\Domain\Model\Shop\Good\Entity\GoodNameType
+
+            order_id:  App\Domain\Model\Shop\Order\Entity\OrderIdType
+            order_cost:  App\Domain\Model\Shop\Order\Entity\OrderCostType
+            order_created:  App\Domain\Model\Shop\Order\Entity\OrderCreatedType
+
+        mapping_types:
+            enum: string
+
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true

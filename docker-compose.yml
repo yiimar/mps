@@ -26,7 +26,7 @@ services:
     build:
       context: ${DOCKER_CONTEXT}
       dockerfile: development/php-fpm/Dockerfile
-    restart: unless-stopped
+    restart: always
 #    tty: true
     volumes:
       # Mounts the local 'app' directory to the container's Nginx root
