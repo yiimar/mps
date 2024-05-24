@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 
 #[ORM\Entity(repositoryClass: GoodRepository::class)]
+#[ORM\Table(name: 'good')]
 class Good
 {
     /**
