@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\Domain\Model\Shop\Order\Entity;
 
 use App\Domain\Model\Auth\Entity\User\Entity\User;
-use App\Domain\Model\Shop\Good\Entity\Good;
+use App\Domain\Model\Shop\Category\Entity\Good\Entity\Good;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 
@@ -35,14 +35,35 @@ final class Order
     private User $user;
 
     /**
-     * @var \App\Domain\Model\Shop\Good\Entity\Good
+     * @var \App\Domain\Model\Shop\Category\Entity\Good\Entity\Good
      */
     #[ORM\JoinColumn(name: "good_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
     #[ORM\ManyToOne(targetEntity: Good::class, inversedBy: "goods")]
     private Good $good;
 
     #[ORM\Column(type: OrderCostType::NAME)]
-    private OrderCost $order_cost;
+    private OrderCost $cost;
+
+    /**
+     * @var \App\Domain\Model\Shop\Order\Entity\OrderCreated|null
+     */
+    private ?OrderCreated $created;
+
+    /**
+     * @param \App\Domain\Model\Auth\Entity\User\Entity\User $user
+     * @param \App\Domain\Model\Shop\Category\Entity\Good\Entity\Good $good
+     * @param \App\Domain\Model\Shop\Order\Entity\OrderCreated|null $created
+     */
+    public function __construct(
+        User $user,
+        Good $good,
+        ?OrderCreated $created
+    )
+    {
+        $this->user = $user;
+        $this->good = $good;
+        $this->created = $created ?? OrderCreated::create();
+    }
 
     /**
      * @return \App\Domain\Model\Shop\Order\Entity\OrderId
@@ -55,9 +76,9 @@ final class Order
     /**
      * @return \App\Domain\Model\Shop\Order\Entity\OrderCreated|null
      */
-    public function getOrderCreated(): ?OrderCreated
+    public function getCreated(): ?OrderCreated
     {
-        return $this->order_created;
+        return $this->created;
     }
 
     /**
@@ -69,7 +90,7 @@ final class Order
     }
 
     /**
-     * @return \App\Domain\Model\Shop\Good\Entity\Good
+     * @return \App\Domain\Model\Shop\Category\Entity\Good\Entity\Good
      */
     public function getGood(): Good
     {
@@ -79,16 +100,8 @@ final class Order
     /**
      * @return \App\Domain\Model\Shop\Order\Entity\OrderCost
      */
-    public function getOrderCost(): OrderCost
+    public function getCost(): OrderCost
     {
-        return $this->order_cost;
-    }
-
-    /**
-     * @param \App\Domain\Model\Shop\Order\Entity\OrderCreated|null $order_created
-     */
-    public function setOrderCreated(?OrderCreated $order_created): void
-    {
-        $this->order_created = $order_created;
+        return $this->cost;
     }
 }

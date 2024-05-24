@@ -64,13 +64,12 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         UserId $id,
         UserEmail $email,
         ?Collection $roles,
-        ?Collection $orders,
     )
     {
         $this->id = $id;
         $this->email = $email;
         $this->roles = $roles ?? new ArrayCollection();
-        $this->orders = $orders;
+        $this->orders =  new ArrayCollection();
     }
     public function getId(): UserId
     {
@@ -136,6 +135,27 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getOrders(): ?Collection
     {
         return $this->orders;
+    }
+
+    /**
+     * @param \App\Domain\Model\Shop\Order\Entity\Order $order
+     * @return self
+     */
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+        }
+        return $this;
+    }
+
+    /**
+     * @param \App\Domain\Model\Shop\Order\Entity\Order $order
+     * @return bool
+     */
+    public function removeOrder(Order $order): bool
+    {
+        return $this->orders->removeElement($order);
     }
 
     /**

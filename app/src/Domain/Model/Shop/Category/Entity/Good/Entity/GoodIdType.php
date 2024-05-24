@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\Shop\Good\Entity;
+namespace App\Domain\Model\Shop\Category\Entity\Good\Entity;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
