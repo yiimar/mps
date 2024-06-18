@@ -1,4 +1,7 @@
 # config/packages/twig.yaml
 twig:
-  # ...
-  default_path: "%kernel.project_dir%/src/Ui/Template"
+   paths:
+        "%kernel.project_dir%/src/Core/UI/Http/Web/Template": core
+        "%kernel.project_dir%/src/Home/UI/Http/Web/Template": home
+        "%kernel.project_dir%/src/Auth/UI/Http/Web/Template": auth
+        "%kernel.project_dir%/src/Shop/UI/Http/Web/Template": shop

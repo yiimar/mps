@@ -16,15 +16,18 @@ doctrine:
             user_role:  App\Domain\Model\Auth\Entity\User\Entity\UserRoleType
             user_password: App\Domain\Model\Auth\Entity\User\Entity\UserPasswordType
 
-            money_amount_type: App\Infrastructure\Doctrine\Dbal\Type\Money\MoneyAmountType
-            money_currency_type: App\Infrastructure\Doctrine\Dbal\Type\Money\MoneyCurrencyType
+#            money_amount_type: App\Infrastructure\Doctrine\Dbal\Type\Money\MoneyAmountType
+#            money_currency_type: App\Infrastructure\Doctrine\Dbal\Type\Money\MoneyCurrencyType
 
-            good_id:  App\Domain\Model\Shop\Good\Entity\GoodIdType
-            good_name:  App\Domain\Model\Shop\Good\Entity\GoodNameType
+            category_id: App\Domain\Model\Shop\Entity\Category\Entity\CategoryIdType
+            category_name: App\Domain\Model\Shop\Entity\Category\Entity\CategoryNameType
 
-            order_id:  App\Domain\Model\Shop\Order\Entity\OrderIdType
-            order_cost:  App\Domain\Model\Shop\Order\Entity\OrderCostType
-            order_created:  App\Domain\Model\Shop\Order\Entity\OrderCreatedType
+            good_id:  App\Domain\Model\Shop\Entity\Category\Entity\Good\Entity\GoodIdType
+            good_name:  App\Domain\Model\Shop\Entity\Category\Entity\Good\Entity\GoodNameType
+
+            order_id:  App\Domain\Model\Shop\Entity\Order\Entity\OrderIdType
+            order_cost:  App\Domain\Model\Shop\Entity\Order\Entity\OrderCostType
+            order_created:  App\Domain\Model\Shop\Entity\Order\Entity\OrderCreatedType
 
         mapping_types:
             enum: string
@@ -37,12 +40,31 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            App:
+            User:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Domain/Model'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Domain/Model/Auth/Entity/User/Entity'
+                prefix: 'App\Domain\Model\Auth\Entity\User\Entity'
+                alias: User
+            Category:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Model/Shop/Entity/Category/Entity'
+                prefix: 'App\Domain\Model\Shop\Entity\Category\Entity'
+                alias: Category
+            Good:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Model/Shop/Entity/Category/Entity/Good/Entity'
+                prefix: 'App\Domain\Model\Shop\Entity\Category\Entity\Good\Entity'
+                alias: Good
+            Order:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Model/Shop/Entity/Order/Entity'
+                prefix: 'App\Domain\Model\Shop\Entity\Order\Entity'
+                alias: Order
+
         controller_resolver:
             auto_mapping: true
 

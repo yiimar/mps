@@ -1,7 +1,6 @@
-
 app_home:
     path: /
-    controller: App\Ui\Http\Controller\Home\Controller
+    controller: App\Home\Ui\Http\Web\Controller\Home\Controller
     methods: [GET]
 
 app_login:
