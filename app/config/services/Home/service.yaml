@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # -- HOME MODULE --
+
+    Home\:
+        resource: ../../../src/Home
+
+    Home\Infrastructure\REST\Controller\:
+        resource: ../../../src/Home/UI/Http/Web/Controller
+        tags: [ controller.service_arguments ]

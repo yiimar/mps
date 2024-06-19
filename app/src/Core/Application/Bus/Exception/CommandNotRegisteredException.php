@@ -14,8 +14,8 @@ use App\Core\Domain\Exception\ApiException;
  */
 final class CommandNotRegisteredException extends ApiException
 {
-    public const STATUS_CODE = 409;
     public const COMMAND_NOT_REGISTERED = 'command_handler_not_registered';
+    public const STATUS_CODE = 409;
 
     /**
      * The constructor initializes the CommandNotRegisteredException with a status code and an error message.

@@ -1,0 +1,5 @@
+imports:
+    - { resource: ./services/Core/services.yaml }
+    - { resource: ./services/Home/services.yaml }
+#    - { resource: ./services/Auth/services.yaml }
+#    - { resource: ./services/Shop/services.yaml }

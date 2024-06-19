@@ -1,0 +1,38 @@
+services:
+    _defaults:
+        autowire: true  # Enables automatic injection of dependencies.
+        autoconfigure: true  # Enables automatic configuration of services.
+    
+    # -- COMMON MODULE --
+    
+    Core\:
+        resource: ../../../src/Core
+    
+    Core\Infrastructure\Listener\JsonExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+    
+    Core\Infrastructure\Listener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    
+    # Monolog
+    Monolog\Logger:
+        arguments:
+            $name: 'request'
+            $handlers: [ '@monolog.handler' ]
+    
+    monolog.handler:
+        class: Monolog\Handler\StreamHandler
+        arguments:
+            $level: 'error'
+            $stream: '%kernel.logs_dir%/exception_%kernel.environment%.log'
+    
+    Core\Infrastructure\Logger\MonologLogger:
+        arguments:
+            $logger: '@Monolog\Logger'
+    
+    # -- IMPLEMENTATIONS SELECTOR --
+    # Defines the EventBus service.
+    Core\Domain\Bus\Event\EventBus:
+        class: 'Core\Infrastructure\Bus\Event\PgSql\PgSqlDoctrineEventBus'
