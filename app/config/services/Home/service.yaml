@@ -8,6 +8,9 @@ services:
     Home\:
         resource: ../../../src/Home
 
-    Home\Infrastructure\REST\Controller\:
-        resource: ../../../src/Home/UI/Http/Web/Controller
+    Home\UI\Http\Web\Controller\Home\Controller:
+        resource: ../../../src/Home/UI/Http/Web/Controller/Home/Controller
+        arguments:
         tags: [ controller.service_arguments ]
+        calls:
+            - [ 'setContainer', [ '@service_container' ] ]

@@ -28,8 +28,6 @@ services:
         volumes:
             - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
         restart: unless-stopped
-        ports:
-            - "${NGINX_PORT_HOST}:${NGINX_PORT_CONTAINER}"
         networks:
             - traefik-public
             - default
