@@ -2,15 +2,20 @@ services:
     traefik:
         container_name: mps-traefik
         image: $TRAEFIK_VERSION
+        restart: unless-stopped
         command:
             --providers.docker=true
             --providers.docker.exposedByDefault=false
             --entryPoints.http.address=:80
         ports:
-            - "80:80"
+            # The HTTP port
+            - "${TRAEFIK_HTTP_PORT}"
+            # The Web UI (enabled by --api.insecure=true)
+            - "${TRAEFIK_WEB_UI_PORT}"
         networks:
             - traefik-public
         volumes:
+            # So that Traefik can listen to the Docker events
             - /var/run/docker.sock:/var/run/docker.sock:ro
         labels:
             - traefik.enable=true
