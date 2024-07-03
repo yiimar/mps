@@ -1,0 +1,168 @@
+services:
+    traefik:
+        container_name: ps-traefik
+        image: $TRAEFIK_VERSION
+        restart: unless-stopped
+        command:
+            --providers.docker=true
+            --providers.docker.exposedByDefault=false
+            --entryPoints.http.address=:80
+        ports:
+            # The HTTP port
+            - "${TRAEFIK_HTTP_PORT}"
+        networks:
+            - traefik-public
+        volumes:
+            # So that Traefik can listen to the Docker events
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
+
+    # NGINX Service
+    nginx:
+        container_name: ps-nginx
+        build:
+            context: $DOCKER_CONTEXT
+            dockerfile: development/nginx/Dockerfile
+            args:
+                - ARG_NGINX_VERSION=${NGINX_VERSION}
+                - ARG_APP_DIR=${APP_DIR}
+        volumes:
+            - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
+        restart: unless-stopped
+        networks:
+            - traefik-public
+            - default
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
+            - traefik.http.routers.app.rule=Host(`localhost`)
+            - traefik.http.routers.app.entryPoints=http
+            - traefik.http.services.app.loadBalancer.server.port=80
+
+    # PHP-FPM Service
+    php-fpm:
+        container_name: ps-php-fpm
+        build:
+            context: $DOCKER_CONTEXT
+            dockerfile: development/php-fpm/Dockerfile
+            args:
+                - ARG_PHP_FPM_VERSION=${PHP_FPM_VERSION}
+                - ARG_XDEBUG_VERSION=${XDEBUG_VERSION}
+                - ARG_PHP_INI_DIR=${PHP_INI_DIR}
+                - ARG_APP_DIR=${APP_DIR}
+        volumes:
+            - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
+        restart: unless-stopped
+        #    tty: true
+        environment:
+            APP_ENV: "${APP_ENV}"
+            APP_DEBUG: "${APP_DEBUG}"
+            DB_CONNECTION: "${DB_CONNECTION}"
+            PHP_IDE_CONFIG: serverName="${SERVER_NAME}"
+            DB_HOST: $DB_HOST
+            DB_PORT: $DB_PORT
+            DB_NAME: $DB_NAME
+            DB_USER: $DB_USER
+            DB_PASSWORD: $DB_PASSWORD
+            DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_NAME}"
+            MAILER_HOST: mailer
+            MAILER_PORT: 1025
+            MAILER_USERNAME: app
+            MAILER_PASSWORD_FILE: /run/secrets/ps_mailer_password
+            MAILER_FROM_EMAIL: mail@app.test
+            SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+            JWT_ENCRYPTION_KEY_FILE: /run/secrets/jwt_encryption_key
+            JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
+            JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
+        secrets:
+            - ps_db_password
+            - ps_mailer_password
+            - sentry_dsn
+            - jwt_encryption_key
+            - jwt_public_key
+            - jwt_private_key
+
+    # PHP-CLI Service
+    ps-php-cli:
+        container_name: ps-php-cli
+        build:
+            context: $DOCKER_CONTEXT
+            dockerfile: development/php-cli/Dockerfile
+            args:
+                - ARG_PHP_CLI_VERSION=${PHP_CLI_VERSION}
+                - ARG_PHP_USER=${PHP_USER}
+                - ARG_XDEBUG_VERSION=${XDEBUG_VERSION}
+                - ARG_PHP_INI_DIR=${PHP_INI_DIR}
+                - ARG_APP_DIR=${APP_DIR}
+                - ARG_COMPOSER_ALLOW_SUPERUSER=${COMPOSER_ALLOW_SUPERUSER}
+        restart: unless-stopped
+        tty: true
+        volumes:
+            - "${APP_VOLUMES_HOST}:${APP_VOLUMES_CONTAINER}"
+        environment:
+            APP_ENV: "${APP_ENV}"
+            APP_DEBUG: 1
+            PHP_IDE_CONFIG: serverName=MPS
+            DB_HOST: "${DB_HOST}"
+            DB_PORT: "${DB_PORT}"
+            DB_NAME: "${DB_NAME}"
+            DB_USER: "${DB_USER}"
+            DB_PASSWORD: "${DB_PASSWORD}"
+            DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_NAME}"
+        secrets:
+            - ps_mailer_password
+            - sentry_dsn
+            - jwt_encryption_key
+            - jwt_public_key
+            - jwt_private_key
+
+    db:
+        container_name: db
+        image: $PGSQL_VERSION
+        environment:
+            POSTGRES_DB: $DB_NAME
+            POSTGRES_USER: $DB_USER
+            POSTGRES_PASSWORD: $DB_PASSWORD
+            POSTGRES_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+        healthcheck:
+            test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-ps}", "-U", "${POSTGRES_USER:-app}"]
+            timeout: 5s
+            retries: 5
+            start_period: 60s
+        volumes:
+            - ps-postgres:/var/lib/postgresql/data
+        restart: always
+        ports:
+            - "54321:5432"
+
+    adminer:
+        container_name: ps-adminer
+        image: $ADMINER_VERSION
+        restart: always
+        ports:
+            - "${ADMINER_PORT_HOST}:${ADMINER_PORT_CONTAINER}"
+
+secrets:
+    ps_db_password:
+        file: ./docker/development/secrets/ps_db_password
+    ps_mailer_password:
+        file: ./docker/development/secrets/ps_mailer_password
+    sentry_dsn:
+        file: ./docker/development/secrets/sentry_dsn
+    jwt_encryption_key:
+        file: ./docker/development/secrets/jwt_encryption_key
+    jwt_public_key:
+        file: ./docker/development/secrets/jwt_public_key
+    jwt_private_key:
+        file: ./docker/development/secrets/jwt_private_key
+    backup_aws_secret_access_key:
+        file: ./docker/development/secrets/backup_aws_secret_access_key
+
+volumes:
+    ps-postgres:
+
+networks:
+    traefik-public:
+        name: traefik-public
