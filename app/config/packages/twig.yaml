@@ -1,5 +1,11 @@
 twig:
     file_name_pattern: '*.twig'
+    paths:
+        "%kernel.project_dir%/src/Core/UI/Http/Web/Template" : core
+
+        "%kernel.project_dir%/src/Module/Home/UI/Http/Web/Template" : home
+
+        "%kernel.project_dir%/src/Module/Shop/Order/Order/UI/Http/Web/Add/Template": order_add
 
 when@test:
     twig:

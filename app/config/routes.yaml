@@ -1,5 +1,11 @@
-controllers:
+home:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: ../src/Module/Home/UI/Http/Web/Controller/
+        namespace: App\Module\Home\UI\Http\Web\Controller
+    type: attribute
+
+order_add:
+    resource:
+        path: ../src/Module/Shop/Order/Order/UI/Http/Web/Add/Controller/
+        namespace: App\Module\Shop\Order\Order\UI\Http\Web\Add\Controller
     type: attribute
