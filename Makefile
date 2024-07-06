@@ -1,13 +1,13 @@
 up: docker-up
 down: docker-down
 restart: down up
-init: docker-down-clear ps-clear \
+init: docker-down-clear  mps-clear \
 	docker-pull docker-build docker-up \
-	ps-init
-test: ps-test
-test-coverage: ps-test-coverage
-test-unit: ps-test-unit
-test-unit-coverage: ps-test-unit-coverage
+	mps-init
+test:  mps-test
+test-coverage:  mps-test-coverage
+test-unit:  mps-test-unit
+test-unit-coverage:  mps-test-unit-coverage
 
 docker-up:
 	docker-compose up -d
@@ -24,44 +24,44 @@ docker-pull:
 docker-build:
 	docker-compose build --pull
 
-ps-init: ps-composer-install ps-assets-install \
- ps-wait-db ps-migrations \
- ps-fixtures \
- ps-ready
+mps-init:  mps-composer-install  mps-assets-install \
+  mps-wait-db  mps-migrations \
+  mps-fixtures \
+  mps-ready
 
-ps-clear:
+mps-clear:
 	docker run --rm -v ${PWD}/app:/app --workdir=/app alpine rm -f .ready
 
-ps-composer-install:
-	docker-compose run --rm ps-php-cli composer install
+mps-composer-install:
+	docker-compose run --rm  mps-php-cli composer install
 
-ps-composer-update:
-	docker-compose run --rm ps-php-cli composer update
+mps-composer-update:
+	docker-compose run --rm  mps-php-cli composer update
 
-ps-assets-install:
-	#docker-compose run --rm ps-node yarn install
-	#docker-compose run --rm ps-node npm rebuild node-sass
+mps-assets-install:
+	#docker-compose run --rm  mps-node yarn install
+	#docker-compose run --rm  mps-node npm rebuild node-sass
 
-ps-wait-db:
-	docker-compose run --rm ps-php-cli wait-for-it db:5432 -t 30
+mps-wait-db:
+	docker-compose run --rm  mps-php-cli wait-for-it db:5432 -t 30
 
-ps-migrations:
-	docker-compose run --rm ps-php-cli php bin/console doctrine:migrations:migrate --no-interaction
+mps-migrations:
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:migrations:migrate --no-interaction
 
-ps-fixtures:
-	docker-compose run --rm ps-php-cli php bin/console doctrine:fixtures:load --no-interaction
+mps-fixtures:
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:fixtures:load --no-interaction
 
-ps-ready:
+mps-ready:
 	docker run --rm -v ${PWD}/app:/app --workdir=/app alpine touch .ready
 
-ps-test:
-	docker-compose run --rm ps-php-cli php bin/phpunit
+mps-test:
+	docker-compose run --rm  mps-php-cli php bin/phpunit
 
-ps-test-coverage:
-	docker-compose run --rm ps-php-cli php bin/phpunit --coverage-clover var/clover.xml --coverage-html var/coverage
+mps-test-coverage:
+	docker-compose run --rm  mps-php-cli php bin/phpunit --coverage-clover var/clover.xml --coverage-html var/coverage
 
-ps-test-unit:
-	docker-compose run --rm ps-php-cli php bin/phpunit --testsuite=unit
+mps-test-unit:
+	docker-compose run --rm  mps-php-cli php bin/phpunit --testsuite=unit
 
-ps-test-unit-coverage:
-	docker-compose run --rm ps-php-cli php bin/phpunit --testsuite=unit --coverage-clover var/clover.xml --coverage-html var/coverage
+mps-test-unit-coverage:
+	docker-compose run --rm  mps-php-cli php bin/phpunit --testsuite=unit --coverage-clover var/clover.xml --coverage-html var/coverage

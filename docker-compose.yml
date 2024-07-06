@@ -1,6 +1,6 @@
 services:
     traefik:
-        container_name: ps-traefik
+        container_name: mps-traefik
         image: $TRAEFIK_VERSION
         restart: unless-stopped
         command:
@@ -21,7 +21,7 @@ services:
 
     # NGINX Service
     nginx:
-        container_name: ps-nginx
+        container_name: mps-nginx
         build:
             context: $DOCKER_CONTEXT
             dockerfile: development/nginx/Dockerfile
@@ -43,7 +43,7 @@ services:
 
     # PHP-FPM Service
     php-fpm:
-        container_name: ps-php-fpm
+        container_name: mps-php-fpm
         build:
             context: $DOCKER_CONTEXT
             dockerfile: development/php-fpm/Dockerfile
@@ -77,16 +77,16 @@ services:
             JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
             JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
         secrets:
-            - ps_db_password
-            - ps_mailer_password
+            - mps_db_password
+            - mps_mailer_password
             - sentry_dsn
             - jwt_encryption_key
             - jwt_public_key
             - jwt_private_key
 
     # PHP-CLI Service
-    ps-php-cli:
-        container_name: ps-php-cli
+    mps-php-cli:
+        container_name: mps-php-cli
         build:
             context: $DOCKER_CONTEXT
             dockerfile: development/php-cli/Dockerfile
@@ -112,7 +112,7 @@ services:
             DB_PASSWORD: "${DB_PASSWORD}"
             DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_NAME}"
         secrets:
-            - ps_mailer_password
+            - mps_mailer_password
             - sentry_dsn
             - jwt_encryption_key
             - jwt_public_key
@@ -132,22 +132,22 @@ services:
             retries: 5
             start_period: 60s
         volumes:
-            - ps-postgres:/var/lib/postgresql/data
+            - mps-postgres:/var/lib/postgresql/data
         restart: always
         ports:
             - "54321:5432"
 
     adminer:
-        container_name: ps-adminer
+        container_name: mps-adminer
         image: $ADMINER_VERSION
         restart: always
         ports:
             - "${ADMINER_PORT_HOST}:${ADMINER_PORT_CONTAINER}"
 
 secrets:
-    ps_db_password:
+    mps_db_password:
         file: ./docker/development/secrets/ps_db_password
-    ps_mailer_password:
+    mps_mailer_password:
         file: ./docker/development/secrets/ps_mailer_password
     sentry_dsn:
         file: ./docker/development/secrets/sentry_dsn
@@ -161,7 +161,7 @@ secrets:
         file: ./docker/development/secrets/backup_aws_secret_access_key
 
 volumes:
-    ps-postgres:
+    mps-postgres:
 
 networks:
     traefik-public:
