@@ -1,11 +1,36 @@
+# app/config/routes.yaml
 home:
     resource:
         path: ../src/Module/Home/UI/Http/Web/Controller/
         namespace: App\Module\Home\UI\Http\Web\Controller
     type: attribute
 
+app_login:
+    resource:
+        path: ../src/Module/Auth/UI/Http/Web/Controller/Login
+        namespace: App\Module\Auth\UI\Http\Web\Controller\Login
+    type: attribute
+
+app_logout:
+    resource:
+        path: ../src/Module/Auth/UI/Http/Web/Controller/Logout
+        namespace: App\Module\Auth\UI\Http\Web\Controller\Logout
+    type: attribute
+
+#auth_reset:
+#    resource:
+#        path: ../src/Module/Auth/UI/Http/Web/Controller/Reset
+#        namespace: App\Module\Auth\UI\Http\Web\Controller\Reset
+#    type: attribute
+
+auth_signup:
+    resource:
+        path: ../src/Module/Auth/UI/Http/Web/Controller/SignUp
+        namespace: App\Module\Auth\UI\Http\Web\Controller\SignUp
+    type: attribute
+
 order_add:
     resource:
-        path: ../src/Module/Shop/Order/Order/UI/Http/Web/Add/Controller/
-        namespace: App\Module\Shop\Order\Order\UI\Http\Web\Add\Controller
+        path: ../src/Module/Shop/Order/Order/UI/Http/Web/Controller/Add/
+        namespace: App\Module\Shop\Order\Order\UI\Http\Web\Controller\Add
     type: attribute
