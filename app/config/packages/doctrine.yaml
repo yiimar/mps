@@ -9,6 +9,14 @@ doctrine:
         charset: utf8
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+
+        types:
+            email: App\Core\Infrastructure\Doctrine\Dbal\Type\Email\EmailType
+            collection: App\Core\Infrastructure\Doctrine\Dbal\Type\Collection\CollectionType
+            password: App\Core\Infrastructure\Doctrine\Dbal\Type\Password\PasswordType
+            money_amount: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyAmountType
+            money_currency: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyCurrencyType
+
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
