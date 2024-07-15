@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Core\Infrastructure\Doctrine\Dbal\Type\Email;
 
-use Exception;
+use App\Core\Infrastructure\Doctrine\Dbal\Type\Core\AbstractValueIsNotValidException;
 
 /**
  * @author Yiimar
  */
-class EmailIsNotValid extends Exception
+class EmailIsNotValid extends AbstractValueIsNotValidException
 {
-    public static function create(string $email): self
+    public static function getErrorMessage(string $option): string
     {
-        return new self('Невалидный Email: ' . $email);
+        return 'Невалидный Email: ' . $option;
     }
 }

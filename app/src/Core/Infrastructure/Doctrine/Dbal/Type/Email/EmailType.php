@@ -38,7 +38,9 @@ class EmailType extends StringType
     }
 
     /**
-     * @throws \App\Core\Infrastructure\Doctrine\Dbal\Type\Password\PasswordIsNotValid
+     * @param $value
+     * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
+     * @return \App\Core\Infrastructure\Doctrine\Dbal\Type\Email\BaseEmail|null
      * @throws \Doctrine\DBAL\Types\ConversionException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?BaseEmail
