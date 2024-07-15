@@ -7,7 +7,7 @@ namespace App\Core\Infrastructure\Doctrine\Dbal\Type\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @author Dmitry S
+ * @author Yiimar
  */
 class BaseCollection extends ArrayCollection
 {

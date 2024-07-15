@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Domain\ReadModel\UseCase;
 
 /**
- * @author Dmitry S
+ * @author Yiimar
  */
 interface FetcherInterface
 {

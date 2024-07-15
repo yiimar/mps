@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Infrastructure\Doctrine\Dbal\Type\Money;
 
 /**
- * @author Dmitry S
+ * @author Yiimar
  */
 readonly class BaseMoneyAmount
 {

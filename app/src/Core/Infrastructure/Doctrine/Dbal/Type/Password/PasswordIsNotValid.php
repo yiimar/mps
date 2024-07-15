@@ -7,7 +7,7 @@ namespace App\Core\Infrastructure\Doctrine\Dbal\Type\Password;
 use Exception;
 
 /**
- * @author Dmitry S
+ * @author Yiimar
  */
 class PasswordIsNotValid extends Exception
 {

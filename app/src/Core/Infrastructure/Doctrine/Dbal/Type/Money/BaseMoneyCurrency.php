@@ -7,7 +7,7 @@ namespace App\Core\Infrastructure\Doctrine\Dbal\Type\Money;
 use Doctrine\DBAL\Types\StringType;
 
 /**
- * @author Dmitry S
+ * @author Yiimar
  */
 readonly class BaseMoneyCurrency
 {

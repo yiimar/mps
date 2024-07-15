@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
 use function call_user_func;
 
 /**
- * @author Dmitry S
+ * @author Yiimar
  */
 class CollectionType extends Type
 {

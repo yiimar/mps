@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\StringType;
 
 /**
- * @author Dmitry S
+ * @author Yiimar
  */
 class PasswordType extends StringType
 {
