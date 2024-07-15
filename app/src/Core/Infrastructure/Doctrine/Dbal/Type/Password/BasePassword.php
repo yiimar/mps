@@ -14,11 +14,32 @@ readonly class BasePassword
     }
 
     /** @throws PasswordIsNotValid */
-    public static function create(string $password): self
+    public static function create(string $password): static
     {
-        self::validate($password);
+        static::validate($password);
 
         return new self($password);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue(): string
+    {
+        return $this->password;
+    }
+
+    public function isEqualTo(self $other): bool
+    {
+        return $this->getValue() === $other->getValue();
     }
 
     public function toString(): string

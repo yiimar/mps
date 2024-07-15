@@ -14,7 +14,7 @@ readonly class BaseEmail
     }
 
     /** @throws EmailIsNotValid */
-    public static function create(string $email): self
+    public static function create(string $email): static
     {
         self::validate($email);
 
