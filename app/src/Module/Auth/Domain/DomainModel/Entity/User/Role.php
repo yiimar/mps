@@ -9,7 +9,7 @@ use Webmozart\Assert\Assert;
 /**
  * @author Yiimar
  */
-final readonly class UserRole
+final readonly class Role
 {
     public const USER = 'ROLE_USER';
     public const ADMIN = 'ROLE_ADMIN';
@@ -22,6 +22,11 @@ final readonly class UserRole
     public static function user(): self
     {
         return new self(self::USER);
+    }
+
+    public static function create(string $string): self
+    {
+        return new self($string);
     }
 
     public function isUser(): bool

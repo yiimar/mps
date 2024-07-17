@@ -40,7 +40,7 @@ final readonly class UserRepository
         return $user;
     }
 
-    public function getByEmail(UserEmail $email): User
+    public function getByEmail(Email $email): User
     {
         $user = $this->repo->findOneBy(['email' => $email->getValue()]);
         if ($user === null) {

@@ -9,6 +9,6 @@ use App\Core\Infrastructure\Doctrine\Dbal\Type\Password\BasePassword;
 /**
  * @author Yiimar
  */
-final readonly class UserPassword extends BasePassword
+final readonly class Password extends BasePassword
 {
 }

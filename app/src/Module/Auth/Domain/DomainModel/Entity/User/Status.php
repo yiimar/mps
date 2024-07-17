@@ -6,7 +6,7 @@ namespace App\Module\Auth\Domain\DomainModel\Entity\User;
 
 use Webmozart\Assert\Assert;
 
-final readonly class UserStatus
+final readonly class Status
 {
     public const WAIT = 'wait';
     public const ACTIVE = 'active';

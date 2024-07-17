@@ -9,6 +9,6 @@ use App\Core\Infrastructure\Doctrine\Dbal\Type\Email\BaseEmail;
 /**
  * @author Yiimar
  */
-final readonly class UserEmail extends BaseEmail
+final readonly class Email extends BaseEmail
 {
 }

@@ -29,8 +29,8 @@ auth_signup:
         namespace: App\Module\Auth\UI\Http\Web\Controller\SignUp
     type: attribute
 
-order_add:
+order_create:
     resource:
-        path: ../src/Module/Shop/Order/Order/UI/Http/Web/Controller/Add/
-        namespace: App\Module\Shop\Order\Order\UI\Http\Web\Controller\Add
+        path: ../src/Module/Shop/Order/Order/UI/Http/Web/Controller/Create/
+        namespace: App\Module\Shop\Order\Order\UI\Http\Web\Controller\Create
     type: attribute

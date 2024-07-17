@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Infrastructure\Doctrine\Dbal\Type;
 
-use App\Module\Auth\Domain\DomainModel\Entity\User\UserRole;
+use App\Module\Auth\Domain\DomainModel\Entity\User\Role;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
@@ -17,12 +17,12 @@ final class UserRoleType extends StringType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
-        return $value instanceof UserRole ? $value->getName() : (string)$value;
+        return $value instanceof Role ? $value->getName() : (string)$value;
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?UserRole
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?Role
     {
-        return !empty($value) ? new UserRole($value) : null;
+        return !empty($value) ? new Role($value) : null;
     }
 
     public function getName(): string

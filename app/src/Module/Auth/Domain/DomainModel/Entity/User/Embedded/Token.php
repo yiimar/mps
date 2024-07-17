@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Auth\Domain\DomainModel\Entity\User;
+namespace App\Module\Auth\Domain\DomainModel\Entity\User\Embedded;
 
+use App\Core\Infrastructure\Doctrine\Dbal\Type\Ulid\BaseUlid;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +24,7 @@ final readonly class Token
 
     public function __construct(string $value, DateTimeImmutable $expires)
     {
-        Assert::uuid($value);
+        Assert::true(BaseUlid::isValid($value));
         $this->value = mb_strtolower($value);
         $this->expires = $expires;
     }
