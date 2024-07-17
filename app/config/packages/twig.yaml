@@ -9,6 +9,8 @@ twig:
 
         "%kernel.project_dir%/src/Module/Auth/UI/Http/Web/Template" : auth
 
+        "%kernel.project_dir%/src/Module/Admin/UI/Http/Web/Template" : admin
+
         "%kernel.project_dir%/src/Module/Shop/Order/Order/UI/Http/Web/Template": order
 
 when@test:

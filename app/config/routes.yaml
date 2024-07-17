@@ -1,4 +1,6 @@
 # app/config/routes.yaml
+
+################ Home ##################
 home:
     resource:
         path: ../src/Module/Home/UI/Http/Web/Controller/
@@ -17,6 +19,7 @@ app_logout:
         namespace: App\Module\Auth\UI\Http\Web\Controller\Logout
     type: attribute
 
+################ Auth ##################
 #auth_reset:
 #    resource:
 #        path: ../src/Module/Auth/UI/Http/Web/Controller/Reset
@@ -29,6 +32,15 @@ auth_signup:
         namespace: App\Module\Auth\UI\Http\Web\Controller\SignUp
     type: attribute
 
+################ Admin ##################
+admin:
+    resource:
+        path: ../src/Module/Admin/UI/Http/Web/Controller/
+        namespace: App\Module\Admin\UI\Http\Web\Controller
+    type: attribute
+
+
+################ Order ##################
 order_create:
     resource:
         path: ../src/Module/Shop/Order/Order/UI/Http/Web/Controller/Create/
