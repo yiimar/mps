@@ -10,7 +10,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email as MimeEmail;
 use Twig\Environment;
 
-final readonly class PasswordResetTokenSender
+final readonly class NewEmailConfirmTokenSender
 {
     public function __construct(private MailerInterface $mailer, private Environment $twig) {}
 
@@ -23,9 +23,9 @@ final readonly class PasswordResetTokenSender
     public function send(Email $email, Token $token): void
     {
         $message = (new MimeEmail())
-            ->subject('Password Reset')
+            ->subject('New Email Confirmation')
             ->to($email->getValue())
-            ->html($this->twig->render('auth/password/confirm.html.twig', ['token' => $token]), 'text/html');
+            ->html($this->twig->render('auth/email/confirm.html.twig', ['token' => $token]), 'text/html');
 
         $this->mailer->send($message);
     }
