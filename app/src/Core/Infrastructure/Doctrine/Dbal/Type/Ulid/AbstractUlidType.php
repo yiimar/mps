@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\Type;
 /**
  * @author Dmitry S
  */
-abstract class UlidType extends Type
+abstract class AbstractUlidType extends Type
 {
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {

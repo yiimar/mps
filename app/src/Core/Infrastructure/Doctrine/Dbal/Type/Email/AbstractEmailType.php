@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Yiimar
  */
-class EmailType extends StringType
+abstract class AbstractEmailType extends StringType
 {
     public const NAME = 'email';
 

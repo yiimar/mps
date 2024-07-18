@@ -14,7 +14,7 @@ use function call_user_func;
 /**
  * @author Yiimar
  */
-class CollectionType extends Type
+abstract class AbstractCollectionType extends Type
 {
     public const NAME = 'collection';
 

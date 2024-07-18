@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Yiimar
  */
-class PasswordType extends StringType
+abstract class AbstractPasswordType extends StringType
 {
     public const NAME = 'password';
 

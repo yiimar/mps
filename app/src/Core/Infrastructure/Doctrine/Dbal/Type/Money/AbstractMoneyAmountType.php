@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\IntegerType;
 use function is_int;
 
-class MoneyAmountType extends IntegerType
+abstract class AbstractMoneyAmountType extends IntegerType
 {
     public const NAME = 'money_amount';
 

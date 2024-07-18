@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 use function is_string;
 
-class MoneyCurrencyType extends StringType
+class AbstractMoneyCurrencyType extends StringType
 {
     public const NAME = 'money_currency';
 
