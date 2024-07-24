@@ -127,7 +127,7 @@ services:
             POSTGRES_PASSWORD: $DB_PASSWORD
             POSTGRES_ROOT_PASSWORD: $DB_ROOT_PASSWORD
         healthcheck:
-            test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-ps}", "-U", "${POSTGRES_USER:-app}"]
+            test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-mps}", "-U", "${POSTGRES_USER:-app}"]
             timeout: 5s
             retries: 5
             start_period: 60s
@@ -146,9 +146,9 @@ services:
 
 secrets:
     mps_db_password:
-        file: ./docker/development/secrets/ps_db_password
+        file: ./docker/development/secrets/mps_db_password
     mps_mailer_password:
-        file: ./docker/development/secrets/ps_mailer_password
+        file: ./docker/development/secrets/mps_mailer_password
     sentry_dsn:
         file: ./docker/development/secrets/sentry_dsn
     jwt_encryption_key:

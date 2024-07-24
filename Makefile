@@ -3,7 +3,7 @@ down: docker-down
 restart: down up
 init: docker-down-clear  mps-clear \
 	docker-pull docker-build docker-up \
-	mps-init
+	mps-init mps_test_init
 test:  mps-test
 test-coverage:  mps-test-coverage
 test-unit:  mps-test-unit
@@ -26,7 +26,6 @@ docker-build:
 
 mps-init:  mps-composer-install  mps-assets-install \
   mps-wait-db  mps-migrations \
-  mps-fixtures \
   mps-ready
 
 mps-clear:
@@ -48,13 +47,19 @@ mps-wait-db:
 mps-migrations:
 	docker-compose run --rm  mps-php-cli php bin/console doctrine:migrations:migrate --no-interaction
 
-mps-fixtures:
-	docker-compose run --rm  mps-php-cli php bin/console doctrine:fixtures:load --no-interaction
-
 mps-ready:
 	docker run --rm -v ${PWD}/app:/app --workdir=/app alpine touch .ready
 
+mps-test_init:
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:database:create --env=test
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:migrations:migrate -n --env=test
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:fixtures:load -n --env=test
+
 mps-test:
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:database:drop --force --env=test || true
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:database:create --env=test
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:migrations:migrate -n --env=test
+	docker-compose run --rm  mps-php-cli php bin/console doctrine:fixtures:load -n --env=test
 	docker-compose run --rm  mps-php-cli php bin/phpunit
 
 mps-test-coverage:

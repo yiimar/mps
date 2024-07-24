@@ -17,7 +17,8 @@ RUN apk add --no-cache postgresql-dev bash coreutils git linux-headers \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && git clone --branch $XDEBUG_VERSION --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
     && docker-php-ext-configure xdebug --enable-xdebug-dev \
-    && docker-php-ext-install pdo_pgsql xdebug \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl pdo_pgsql xdebug \
     && apk del git linux-headers
 
 RUN mv $ARG_PHP_INI_DIR/php.ini-development $ARG_PHP_INI_DIR/php.ini
