@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Module\Admin\Auth\Domain\DomainModel\Entity;
 
 use App\Core\Domain\DomainModel\ValueObject\Core\ValueObjectInterface;
+use App\Core\Infrastructure\Doctrine\Dbal\Type\Password\PasswordIsEmpty;
 
 /**
  * @author Yiimar
@@ -16,10 +17,13 @@ final readonly class AdminPassword implements ValueObjectInterface
     ) {
     }
 
-    public static function create($password): self
+    /**
+     * @throws \App\Core\Infrastructure\Doctrine\Dbal\Type\Password\PasswordIsEmpty
+     */
+    public static function create($value): self
     {
         return new self(
-            self::parseAndValidate($password)
+            self::parseAndValidate($value)
         );
     }
 
@@ -37,15 +41,15 @@ final readonly class AdminPassword implements ValueObjectInterface
     /**
      * @return non-empty-string
      *
-     * @throws AdminPasswordIsEmpty
+     * @throws PasswordIsEmpty
      */
-    private static function parseAndValidate(string $password): string
+    private static function parseAndValidate(string $value): string
     {
-        if ($password === '') {
-            throw AdminPasswordIsEmpty::create();
+        if ($value === '') {
+            throw PasswordIsEmpty::create($value);
         }
 
-        return $password;
+        return $value;
     }
 
     /**

@@ -16,7 +16,7 @@ final readonly class UserRole
 
     public function __construct(private string $name)
     {
-        Assert::true($this->isValid($this->name));
+        self::validate($this->name);
     }
 
     public static function user(): self
@@ -49,9 +49,9 @@ final readonly class UserRole
         return $this->name;
     }
 
-    public function isValid(string $name): bool
+    public static function validate(string $name): void
     {
-        return in_array($name, [
+        Assert::oneOf($name, [
             self::USER,
             self::ADMIN,
         ]);
