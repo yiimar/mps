@@ -9,9 +9,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 use Override;
 
-final class AuthUserEmailType extends StringType
+final class UserEmailType extends StringType
 {
-    public const NAME = 'auth_user_email';
+    public const NAME = 'user_email';
 
     #[Override]
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): mixed

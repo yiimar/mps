@@ -11,16 +11,17 @@ doctrine:
         use_savepoints: true
 
         types:
-#            email: App\Core\Infrastructure\Doctrine\Dbal\Type\Email\EmailType
-#            collection: App\Core\Infrastructure\Doctrine\Dbal\Type\Collection\CollectionType
-#            password: App\Core\Infrastructure\Doctrine\Dbal\Type\Password\PasswordType
-#            money_amount: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyAmountType
-#            money_currency: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyCurrencyType
 
-            auth_user_id: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AuthUserIdType
-            auth_user_email: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AuthUserEmailType
+            user_id: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserIdType
+            user_email: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserEmailType
+            user_password: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserPasswordType
+            user_status: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserStatus
 
-#            admin_email: App\Module\Admin\Infrastructure\Doctrine\Dbal\Type\Email\AdminEmailType
+            admin_id: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminIdType
+            admin_username: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminUsernameType
+            admin_email: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminEmailType
+            admin_password: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminPasswordType
+            admin_status: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminStatusType
 
     orm:
         auto_generate_proxy_classes: true

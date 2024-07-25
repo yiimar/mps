@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace App\Module\Auth\Infrastructure\Doctrine\Dbal\Type;
 
 use App\Core\Infrastructure\Doctrine\Dbal\Type\Ulid\AbstractUlidType;
-use App\Module\Admin\Admin\DomainModel\Entity\Id;
+use App\Module\Auth\Domain\DomainModel\Entity\User\UserId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Override;
 
 /**
  * @author Yiimar
  */
-class AuthUserIdType extends AbstractUlidType
+class UserIdType extends AbstractUlidType
 {
-    public const NAME = 'auth_user_id';
+    public const NAME = 'user_id';
 
     #[Override]
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        return $value instanceof Id ? $value->getValue() : (string)$value;
+        return $value instanceof UserId ? $value->getValue() : (string)$value;
     }
 
     #[Override]
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?Id
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?UserId
     {
-        return !empty($value) ? new Id((string)$value) : null;
+        return !empty($value) ? UserId::create((string)$value) : null;
     }
 
     public function getName(): string

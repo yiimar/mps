@@ -11,9 +11,9 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Yiimar
  */
-final class AuthUserRoleType extends StringType
+final class UserRoleType extends StringType
 {
-    public const NAME = 'auth_user_role';
+    public const NAME = 'user_role';
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
@@ -22,7 +22,7 @@ final class AuthUserRoleType extends StringType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?UserRole
     {
-        return !empty($value) ? new UserRole($value) : null;
+        return !empty($value) ? UserRole::create((string)$value) : null;
     }
 
     public function getName(): string

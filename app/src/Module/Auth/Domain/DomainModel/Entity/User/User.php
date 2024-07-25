@@ -6,9 +6,9 @@ namespace App\Module\Auth\Domain\DomainModel\Entity\User;
 
 use App\Core\Application\Enum\DB\DbTAbles;
 use App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\UserStatus;
-use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AdminEmailType;
-use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AdminIdType;
-use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AdminPasswordType;
+use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserEmailType;
+use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserIdType;
+use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserPasswordType;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,7 +28,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var UserId
      */
     #[ORM\Id]
-    #[ORM\Column(type: AdminIdType::NAME, unique: true)]
+    #[ORM\Column(type: UserIdType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
     private UserId $id;
@@ -38,7 +38,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @var \App\Module\Auth\Domain\DomainModel\Entity\User\UserEmail
      */
-    #[ORM\Column(type: AdminEmailType::NAME, unique: true)]
+    #[ORM\Column(type: UserEmailType::NAME, unique: true)]
     private UserEmail $email;
 
     /**
@@ -52,9 +52,9 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Пароль
      *
-     * @var UserPassword
+     * @var UserPassword|null
      */
-    #[ORM\Column(type: AdminPasswordType::NAME, nullable: true)]
+    #[ORM\Column(type: UserPasswordType::NAME, nullable: true)]
     private ?UserPassword $password = null;
 
     /**
@@ -124,6 +124,9 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password->getValue();
     }
 
+    /**
+     * @throws \App\Module\Auth\Domain\DomainModel\Exception\ValueObject\User\UserPasswordIsEmpty
+     */
     public function setPassword(string $password): self
     {
         $this->password = UserPassword::create($password);

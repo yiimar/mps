@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Domain\DomainModel\Entity\User\Embedded;
 
-use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AdminStatusType;
+use App\Core\Infrastructure\Doctrine\Dbal\Type\Status\StatusIsNotValid;
+use App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserStatusType;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
+use Webmozart\Assert\InvalidArgumentException;
 
 /**
  * @author Yiimar
@@ -17,16 +19,26 @@ final readonly class UserStatus
     public const WAIT = 'wait';
     public const ACTIVE = 'active';
 
-    #[ORM\Column(type: AdminStatusType::NAME, length: 16)]
-    private string $name;
+    /**
+     * @throws \App\Core\Infrastructure\Doctrine\Dbal\Type\Status\StatusIsNotValid
+     */
+    public function __construct(
+        #[ORM\Column(type: UserStatusType::NAME, length: 16)]
+        private string $value
+    ) {
+        try {
+            self::validate($value);
+        } catch (InvalidArgumentException $e) {
+            throw StatusIsNotValid::create($e->getMessage());
+        }
+    }
 
-    public function __construct(string $name)
+    /**
+     * @throws \App\Core\Infrastructure\Doctrine\Dbal\Type\Status\StatusIsNotValid
+     */
+    public static function create(mixed $value): self
     {
-        Assert::oneOf($name, [
-            self::WAIT,
-            self::ACTIVE,
-        ]);
-        $this->name = $name;
+        return new self($value);
     }
 
     public static function wait(): self
@@ -39,18 +51,26 @@ final readonly class UserStatus
         return new self(self::ACTIVE);
     }
 
+    protected static function validate(mixed $value): void
+    {
+        Assert::oneOf($value, [
+            self::WAIT,
+            self::ACTIVE,
+        ]);
+    }
+
     public function isWait(): bool
     {
-        return $this->name === self::WAIT;
+        return $this->value === self::WAIT;
     }
 
     public function isActive(): bool
     {
-        return $this->name === self::ACTIVE;
+        return $this->value === self::ACTIVE;
     }
 
-    public function getName(): string
+    public function getValue(): string
     {
-        return $this->name;
+        return $this->value;
     }
 }
