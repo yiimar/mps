@@ -1,6 +1,6 @@
 twig:
     file_name_pattern: '*.twig'
-    form_themes: ['bootstrap_4_layout.html.twig']
+    form_themes: ['bootstrap_5_layout.html.twig']
 
     paths:
         "%kernel.project_dir%/src/Core/UI/Http/Web/Template" : core
@@ -9,7 +9,8 @@ twig:
 
         "%kernel.project_dir%/src/Module/Auth/UI/Http/Web/Template" : auth
 
-        "%kernel.project_dir%/src/Module/Admin/UI/Http/Web/Template" : admin
+        "%kernel.project_dir%/src/Module/Admin/Auth/UI/Http/Web/Template" : admin_auth
+        "%kernel.project_dir%/src/Module/Admin/Dashboard/UI/Http/Web/Template" : admin_dashboard
 
         "%kernel.project_dir%/src/Module/Shop/Order/Order/UI/Http/Web/Template": order
 

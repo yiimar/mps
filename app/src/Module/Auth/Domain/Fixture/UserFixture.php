@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Domain\Fixture;
 
-use App\Module\Auth\Domain\DomainModel\Entity\User\Token;
-use App\Module\Auth\Domain\DomainModel\Entity\User\User;
+use App\Module\Admin\Admin\DomainModel\Entity\Id;
 use App\Module\Auth\Domain\DomainModel\Entity\User\UserEmail;
-use App\Module\Auth\Domain\DomainModel\Entity\User\UserId;
+use App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\Token;
+use App\Module\Auth\Domain\DomainModel\Entity\User\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -26,7 +26,7 @@ final class UserFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = User::requestJoinByEmail(
-            UserId::fromString('00000000-0000-0000-0000-000000000001'),
+            Id::fromString('00000000-0000-0000-0000-000000000001'),
             $date = new DateTimeImmutable('-30 days'),
             UserEmail::create('user@app.test'),
             self::PASSWORD_HASH,

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Module\Auth\Domain\Test\Builder;
 
 use App\Core\Infrastructure\Doctrine\Dbal\Type\Ulid\BaseUlid;
-use App\Module\Auth\Domain\DomainModel\Entity\User\Network\UserNetwork;
-use App\Module\Auth\Domain\DomainModel\Entity\User\Token;
-use App\Module\Auth\Domain\DomainModel\Entity\User\User;
+use App\Module\Admin\Admin\DomainModel\Entity\Id;
 use App\Module\Auth\Domain\DomainModel\Entity\User\UserEmail;
-use App\Module\Auth\Domain\DomainModel\Entity\User\UserId;
+use App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\Token;
+use App\Module\Auth\Domain\DomainModel\Entity\User\Network\UserNetwork;
+use App\Module\Auth\Domain\DomainModel\Entity\User\User;
 use DateTimeImmutable;
 
 final class UserBuilder
 {
-    private UserId $id;
+    private Id $id;
     private UserEmail $email;
     private string $passwordHash;
     private DateTimeImmutable $date;
@@ -27,14 +27,14 @@ final class UserBuilder
      */
     public function __construct()
     {
-        $this->id = UserId::fromString(UserId::generate());
+        $this->id = Id::fromString(Id::generate());
         $this->email = UserEmail::create('mail@example.com');
         $this->passwordHash = 'hash';
         $this->date = new DateTimeImmutable();
         $this->joinConfirmToken = new Token(BaseUlid::generate(), $this->date->modify('+1 day'));
     }
 
-    public function withId(UserId $id): self
+    public function withId(Id $id): self
     {
         $clone = clone $this;
         $clone->id = $id;

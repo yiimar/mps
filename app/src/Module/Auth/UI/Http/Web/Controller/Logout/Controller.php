@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\UI\Http\Web\Controller\Logout;
 
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

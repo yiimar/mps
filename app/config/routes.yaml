@@ -7,6 +7,8 @@ home:
         namespace: App\Module\Home\UI\Http\Web\Controller
     type: attribute
 
+
+################ Auth ##################
 app_login:
     resource:
         path: ../src/Module/Auth/UI/Http/Web/Controller/Login
@@ -32,11 +34,17 @@ auth_signup:
         namespace: App\Module\Auth\UI\Http\Web\Controller\SignUp
     type: attribute
 
+
 ################ Admin ##################
-admin:
+admin_dashboard:
     resource:
-        path: ../src/Module/Admin/UI/Http/Web/Controller/
-        namespace: App\Module\Admin\UI\Http\Web\Controller
+        path: ../src/Module/Admin/Dashboard/UI/Http/Web/Controller
+        namespace: App\Module\Admin\Dashboard\UI\Http\Web\Controller
+    type: attribute
+admin_auth:
+    resource:
+        path: ../src/Module/Admin/Auth/UI/Http/Web/Controller
+        namespace: App\Module\Admin\Auth\UI\Http\Web\Controller
     type: attribute
 
 

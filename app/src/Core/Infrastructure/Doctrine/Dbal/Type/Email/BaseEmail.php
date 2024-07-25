@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace App\Core\Infrastructure\Doctrine\Dbal\Type\Email;
 
+use App\Core\Domain\DomainModel\ValueObject\Core\ValueObjectInterface;
+
 /**
  * @author Yiimar
  */
-readonly class BaseEmail
+readonly class BaseEmail implements ValueObjectInterface
 {
     private function __construct(private string $email)
     {
     }
 
     /** @throws EmailIsNotValid */
-    public static function create(string $email): static
+    public static function create(mixed $value): static
     {
-        self::validate($email);
+        self::validate($value);
 
-        return new self($email);
+        return new static($value);
     }
 
     /**
@@ -53,5 +55,10 @@ readonly class BaseEmail
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             throw EmailIsNotValid::create($email);
         }
+    }
+
+    public static function defaultNamedConstructor(): callable
+    {
+        return [static::class, 'create'];
     }
 }

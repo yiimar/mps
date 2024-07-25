@@ -11,11 +11,16 @@ doctrine:
         use_savepoints: true
 
         types:
-            email: App\Core\Infrastructure\Doctrine\Dbal\Type\Email\EmailType
-            collection: App\Core\Infrastructure\Doctrine\Dbal\Type\Collection\CollectionType
-            password: App\Core\Infrastructure\Doctrine\Dbal\Type\Password\PasswordType
-            money_amount: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyAmountType
-            money_currency: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyCurrencyType
+#            email: App\Core\Infrastructure\Doctrine\Dbal\Type\Email\EmailType
+#            collection: App\Core\Infrastructure\Doctrine\Dbal\Type\Collection\CollectionType
+#            password: App\Core\Infrastructure\Doctrine\Dbal\Type\Password\PasswordType
+#            money_amount: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyAmountType
+#            money_currency: App\Core\Infrastructure\Doctrine\Dbal\Type\Money\MoneyCurrencyType
+
+            auth_user_id: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AuthUserIdType
+            auth_user_email: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\AuthUserEmailType
+
+#            admin_email: App\Module\Admin\Infrastructure\Doctrine\Dbal\Type\Email\AdminEmailType
 
     orm:
         auto_generate_proxy_classes: true

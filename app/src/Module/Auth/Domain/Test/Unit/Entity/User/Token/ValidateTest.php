@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Module\Auth\Domain\Test\Unit\Entity\User\Token;
 
 use App\Core\Infrastructure\Doctrine\Dbal\Type\Ulid\BaseUlid;
-use App\Module\Auth\Domain\DomainModel\Entity\User\Token;
+use App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\Token;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 

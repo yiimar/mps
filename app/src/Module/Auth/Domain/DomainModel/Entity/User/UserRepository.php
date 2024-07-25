@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Domain\DomainModel\Entity\User;
 
+use App\Module\Admin\Admin\DomainModel\Entity\Id;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use DomainException;
@@ -31,7 +32,7 @@ final readonly class UserRepository
         return $this->repo->findOneBy(['newEmailToken.value' => $token]);
     }
 
-    public function get(UserId $id): User
+    public function get(Id $id): User
     {
         $user = $this->repo->find($id->getValue());
         if ($user === null) {
@@ -40,7 +41,7 @@ final readonly class UserRepository
         return $user;
     }
 
-    public function getByEmail(Email $email): User
+    public function getByEmail(UserEmail $email): User
     {
         $user = $this->repo->findOneBy(['email' => $email->getValue()]);
         if ($user === null) {

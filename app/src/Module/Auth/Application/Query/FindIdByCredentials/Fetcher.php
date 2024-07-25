@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Application\Query\FindIdByCredentials;
 
-use App\Module\Auth\Domain\DomainModel\Entity\User\UserStatus;
+use App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\UserStatus;
 use App\Module\Auth\Domain\DomainModel\Service\PasswordHasher;
 use Doctrine\DBAL\Connection;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Auth\Domain\Test\Unit\Entity\User;
 
-use App\Module\Auth\Domain\DomainModel\Entity\User\UserStatus;
+use App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\UserStatus;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

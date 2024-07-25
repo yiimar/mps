@@ -6,7 +6,7 @@ namespace App\Module\Auth\Domain\Test\Unit\Service;
 
 use App\Core\Infrastructure\Doctrine\Dbal\Type\Ulid\BaseUlid;
 use App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\Token;
-use App\Module\Auth\Domain\DomainModel\Entity\User\Email;
+use App\Module\Auth\Domain\DomainModel\Entity\User\UserEmail;
 use App\Module\Auth\Domain\DomainModel\Service\PasswordResetTokenSender;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,7 @@ final class PasswordResetTokenSenderTest extends TestCase
      */
     public function testSuccess(): void
     {
-        $to = Email::create('user@app.test');
+        $to = UserEmail::create('user@app.test');
         $token = new Token(BaseUlid::generate(), new DateTimeImmutable());
         $confirmUrl = 'http://test/password/confirm?token=' . $token->getValue();
 
