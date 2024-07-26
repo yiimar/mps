@@ -15,13 +15,13 @@ doctrine:
             user_id: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserIdType
             user_email: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserEmailType
             user_password: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserPasswordType
-            user_status: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserStatus
+            user_status: App\Module\Auth\Infrastructure\Doctrine\Dbal\Type\UserStatusType
 
-            admin_id: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminIdType
-            admin_username: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminUsernameType
-            admin_email: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminEmailType
-            admin_password: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminPasswordType
-            admin_status: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\Email\AdminStatusType
+            admin_id: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\AdminIdType
+            admin_username: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\AdminUsernameType
+            admin_email: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\AdminEmailType
+            admin_password: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\AdminPasswordType
+            admin_status: App\Module\Admin\Auth\Infrastructure\Doctrine\Dbal\Type\AdminStatusType
 
     orm:
         auto_generate_proxy_classes: true

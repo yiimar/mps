@@ -61,6 +61,7 @@ final class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Статус
      *
      * @var \App\Module\Auth\Domain\DomainModel\Entity\User\Embedded\UserStatus
+
      */
     #[ORM\Embedded(class: UserStatus::class)]
     private UserStatus $status;
